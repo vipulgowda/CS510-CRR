@@ -1,4 +1,4 @@
-# ECE585 Microprocessor System Design Project
+# CS510 - CODE READING AND REVIEW GRADUATE PROJECT
 
 ## Table of Contents
 
