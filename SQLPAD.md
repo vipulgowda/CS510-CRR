@@ -1,37 +1,3 @@
-# CS510 - CODE READING AND REVIEW GRADUATE PROJECT
-
-## Table of Contents
-
-- [Introduction](#introduction)
-- [Contributors](#contributors)
-- [Project Description](#project-description)
-- [Updates](#updates)
-- [Getting Started](#getting-started)
-
-## Introduction
-
-This is the README for Graduate Project of CS510:TOP - Code Reading and Review. Here we will be working mainly on updating code on the basis of software design principles and clean code principles. 
-
-## Contributors
-
-- Vipul Puttaswamy Gowda ([vipulp@pdx.edu](mailto:vipulp@pdx.edu))
-- Raghuram Gudemaranahalli Nataraja ([raghuram@pdx.edu](mailto:raghuram@pdx.edu))
-- Smriti Basnet ([risheek@pdx.edu](mailto:risheek@pdx.edu))
-
-## Project Description
-
-<Project Descripton will be added shortly>
-
-## Updates
-
-List the updates done to the project. You can use bullet points for this section.
-
-- Feature 1 (coming soon)
-- Feature 2 (getting there)
-- Feature 3 (almost done (not really !!))
-
-## Getting Started
-
 # SQLPad
 
 A web app for writing and running SQL queries and visualizing the results. Supports Postgres, MySQL, SQL Server, ClickHouse, Crate, Vertica, Trino, Presto, SAP HANA, Cassandra, Google BigQuery, SQLite, TiDB and many more via [ODBC](https://github.com/sqlpad/sqlpad/wiki/ODBC).
