@@ -16,7 +16,7 @@ This is the README for Graduate Project of CS510:TOP - Code Reading and Review. 
 
 - Vipul Puttaswamy Gowda ([vipulp@pdx.edu](mailto:vipulp@pdx.edu))
 - Raghuram Gudemaranahalli Nataraja ([raghuram@pdx.edu](mailto:raghuram@pdx.edu))
-- Smriti Basnet ([risheek@pdx.edu](mailto:risheek@pdx.edu))
+- Smriti Basnet ([esmeb@pdx.edu](mailto:esmeb@pdx.edu))
 
 ## Project Description
 
