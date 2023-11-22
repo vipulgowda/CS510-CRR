@@ -104,9 +104,7 @@
     "vertica": "^0.5.5"
   },
   "main": "./app.js",
-  "bin": {
-    "sqlpad": "server.js"
-  },
+  "bin": "server.js",
   "optionalDependencies": {
     "odbc": "^2.2.2"
   },
@@ -124,8 +122,5 @@
     "pino-pretty": "^10.0.0",
     "supertest": "^6.2.2",
     "traverse": "^0.6.6"
-  },
-  "resolutions": {
-    "supertest/**/cookiejar": "^2.1.4"
   }
 }
