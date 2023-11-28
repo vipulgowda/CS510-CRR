@@ -13,13 +13,13 @@ export default function TextArea({
 }: Props) {
   const classNames = [styles.textarea];
 
-  if (error) {
-    classNames.push(styles.danger);
-  }
+  // If error is true, it pushes styles.danger into classNames.
+  // If error is false, it evaluates the second part (className && classNames.push(className)).
+  // If className is truthy, it pushes className into classNames
 
-  if (className) {
-    classNames.push(className);
-  }
+  error
+    ? classNames.push(styles.danger)
+    : className && classNames.push(className);
 
   return (
     <textarea className={classNames.join(' ')} {...rest}>
