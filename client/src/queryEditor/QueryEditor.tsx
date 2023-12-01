@@ -3,8 +3,7 @@ import { useParams } from 'react-router-dom';
 import SplitPane from 'react-split-pane';
 import AppHeader from '../app-header/AppHeader';
 import { debouncedResizeChart } from '../common/tauChartRef';
-import SchemaInfoLoader from '../schema/SchemaInfoLoader';
-import { connectConnectionClient, loadQuery } from '../stores/editor-actions';
+import { connectConnectionClient, loadQuery, loadSchema } from '../stores/editor-actions';
 import useShortcuts from '../utilities/use-shortcuts';
 import DocumentTitle from './DocumentTitle';
 import EditorNavProtection from './EditorNavProtection';
@@ -17,6 +16,7 @@ import QueryEditorSqlEditor from './QueryEditorSqlEditor';
 import QuerySaveModal from './QuerySaveModal';
 import Toolbar from './Toolbar';
 import UnsavedQuerySelector from './UnsavedQuerySelector';
+import { useSessionConnectionId } from '../stores/editor-store';
 
 interface Params {
   queryId?: string;
@@ -24,6 +24,7 @@ interface Params {
 
 function QueryEditor() {
   const [showNotFound, setShowNotFound] = useState(false);
+  const selectedConnectionId = useSessionConnectionId();
   const { queryId = '' } = useParams<Params>();
   useShortcuts();
 
@@ -47,6 +48,12 @@ function QueryEditor() {
       });
     }
   }, [queryId]);
+
+  useEffect(() => {
+    if (selectedConnectionId) {
+      loadSchema(selectedConnectionId);
+    }
+  }, [selectedConnectionId]);
 
   return (
     <div
@@ -80,7 +87,6 @@ function QueryEditor() {
       </div>
       <UnsavedQuerySelector queryId={queryId} />
       <DocumentTitle queryId={queryId} />
-      <SchemaInfoLoader />
       <QuerySaveModal />
       <NotFoundModal visible={showNotFound} queryId={queryId} />
       <EditorNavProtection />

@@ -8,7 +8,7 @@ import ToolbarNewQueryButton from './ToolbarNewQueryButton';
 import AppHeaderSpacer from './AppHeaderSpacer';
 import AppHeaderUser from './AppHeaderUser';
 
-function Appheader() {
+function Appheader():React.JSX.Element {
   return (
     <div
       style={{

@@ -166,9 +166,6 @@ export default function getTauChartConfig(
 
   if (unmetFields.length) {
     // TODO - highlight fields that are required but not provided or clear values no longer relevant
-    // message.error(
-    //   'Unmet required fields: ' + unmetFields.map(f => f.label).join(', ')
-    // );
     return null;
   }
 

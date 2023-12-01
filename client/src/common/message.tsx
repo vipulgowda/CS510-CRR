@@ -13,7 +13,7 @@ type Events = {
 
 const emitter = mitt<Events>();
 
-export function MessageDisplayer() {
+export function MessageDisplay() {
   const [messages, setMessages] = useState<Message[]>([]);
 
   function onMessage(message: Message | undefined) {
