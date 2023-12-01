@@ -60,7 +60,7 @@ function validateConnection(connection) {
   // Otherwise use legacy driver fields (the leftovers of fields we do not know about)
   const driverFields = data || legacyDriverFields;
 
-  const connectionDetails = {
+  const cleanConnection = {
     id,
     name,
     description,
@@ -90,20 +90,19 @@ function validateConnection(connection) {
   }, {});
 
   if (cleanedData && Object.keys(cleanedData).length) {
-    connectionDetails.data = cleanedData;
+    cleanConnection.data = cleanedData;
   }
 
-
   // Strip fields set to undefined
-  const removeUndefinedInConnectionDetails = {};
-  Object.keys(connectionDetails).forEach((key) => {
-    const value = connectionDetails[key];
+  const evenMoreClean = {};
+  Object.keys(cleanConnection).forEach((key) => {
+    const value = cleanConnection[key];
     if (value !== undefined) {
-      removeUndefinedInConnectionDetails[key] = value;
+      evenMoreClean[key] = value;
     }
   });
 
-  return removeUndefinedInConnectionDetails;
+  return evenMoreClean;
 }
 
 module.exports = validateConnection;

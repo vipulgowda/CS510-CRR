@@ -3,7 +3,7 @@ const router = require('express').Router();
 const mustBeAdmin = require('../middleware/must-be-admin');
 const mustBeAuthenticated = require('../middleware/must-be-authenticated');
 const wrap = require('../lib/wrap');
-const connectionDetails = require('../lib/connection-details');
+const consts = require('../lib/consts');
 
 function removePassword(connection) {
   connection.password = '';
@@ -34,7 +34,7 @@ async function listConnections(req, res) {
     // map access to a set of connection ids
     access = new Set(access.map((e) => e.connectionId));
     // If all connections are allowed by this magic id, we can show all and don't need to filter the list.
-    if (!access.has(connectionDetails.EVERY_CONNECTION_ID)) {
+    if (!access.has(consts.EVERY_CONNECTION_ID)) {
       // if not all are allowed then we filter each connection and check that it is in the access list.
       connections = connections.filter((e) => access.has(e.id));
     }

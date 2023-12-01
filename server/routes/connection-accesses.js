@@ -1,6 +1,6 @@
 require('../typedefs');
 const router = require('express').Router();
-const consts = require('../lib/connection-details');
+const consts = require('../lib/consts');
 const mustBeAdmin = require('../middleware/must-be-admin');
 const mustBeAuthenticated = require('../middleware/must-be-authenticated');
 const wrap = require('../lib/wrap');

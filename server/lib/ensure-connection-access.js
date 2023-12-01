@@ -1,5 +1,5 @@
 const appLog = require('./app-log');
-const connectionDetails = require('./connection-details');
+const consts = require('./consts');
 
 /**
  * Ensure admin email is a user if provided
@@ -11,17 +11,17 @@ async function ensureConnectionAccess(sequelizeDb, config) {
   if (config.get('allowConnectionAccessToEveryone')) {
     const existing = await sequelizeDb.ConnectionAccesses.findOne({
       where: {
-        connectionId: connectionDetails.EVERY_CONNECTION_ID,
-        userId: connectionDetails.EVERYONE_ID,
+        connectionId: consts.EVERY_CONNECTION_ID,
+        userId: consts.EVERYONE_ID,
       },
     });
     if (!existing) {
       appLog.info('Creating access on every connection to every user...');
       await sequelizeDb.ConnectionAccesses.create({
-        connectionId: connectionDetails.EVERY_CONNECTION_ID,
-        connectionName: connectionDetails.EVERY_CONNECTION_NAME,
-        userId: connectionDetails.EVERYONE_ID,
-        userEmail: connectionDetails.EVERYONE_EMAIL,
+        connectionId: consts.EVERY_CONNECTION_ID,
+        connectionName: consts.EVERY_CONNECTION_NAME,
+        userId: consts.EVERYONE_ID,
+        userEmail: consts.EVERYONE_EMAIL,
         duration: 0,
         expiryDate: new Date(new Date().setFullYear(2099)),
       });

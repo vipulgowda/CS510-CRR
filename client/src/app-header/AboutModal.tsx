@@ -1,7 +1,7 @@
 import React from 'react';
-import Modal from '../../common/Modal';
-import useAppContext from '../../utilities/use-app-context';
-import Content from '../Content';
+import Modal from '../common/Modal';
+import useAppContext from '../utilities/use-app-context';
+import AboutContent from './AboutContent';
 
 interface Props {
   visible: boolean;
@@ -18,7 +18,7 @@ function AboutModal({ visible, onClose }: Props) {
         visible={visible}
         onClose={onClose}
       >
-        <Content version={version} />
+        <AboutContent version={version} />
       </Modal>
     </>
   );

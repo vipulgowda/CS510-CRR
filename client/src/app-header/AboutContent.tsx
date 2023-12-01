@@ -7,7 +7,7 @@ type Props = {
   version?: string;
 };
 
-function Content({ version = '' }: Props) {
+function AboutContent({ version = '' }: Props) {
   return (
     <div>
       <p>
@@ -79,4 +79,4 @@ function Content({ version = '' }: Props) {
   );
 }
 
-export default Content;
+export default AboutContent;

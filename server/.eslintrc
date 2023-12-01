@@ -33,7 +33,6 @@
     "radix": "off",
     "vars-on-top": "off",
     "prefer-regex-literals": "off",
-    "no-promise-executor-return": "off",
-    "lines-between-class-members": "off"
+    "no-promise-executor-return": "off"
   }
 }

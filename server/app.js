@@ -18,8 +18,6 @@ const authStrategies = require('./auth-strategies');
 const sessionlessAuth = require('./middleware/sessionless-auth');
 const ResponseUtils = require('./lib/response-utils');
 const expressPinoLogger = require('express-pino-logger');
-const { customErrorMessage } = require('./utils/customErrorMessage');
-const { ResponseStatus } = require('./utils/ResponseStatus');
 
 // This is a workaround till BigInt is fully supported by the standard
 // See https://tc39.es/ecma262/#sec-ecmascript-language-types-bigint-type
@@ -38,10 +36,10 @@ BigInt.prototype.toJSON = function () {
  */
 async function makeApp(config, models) {
   if (typeof config.get !== 'function') {
-    customErrorMessage('config is required to create app')
+    throw new Error('config is required to create app');
   }
   if (!models) {
-    customErrorMessage('models is required to create app')
+    throw new Error('models is required to create app');
   }
 
   const webhooks = new Webhooks(config, models, appLog);
@@ -93,7 +91,7 @@ async function makeApp(config, models) {
   app.use(expressPino);
 
   // Use favicon middleware if favicon exists
-  // This just loads it and serves from memory
+  // Thist just loads it and serves from memory
   const icoPath = path.join(__dirname, '/public/favicon.ico');
   if (fs.existsSync(icoPath)) {
     app.use(favicon(icoPath));
@@ -115,7 +113,7 @@ async function makeApp(config, models) {
 
   const sessionOptions = {
     saveUninitialized: false,
-    updateSave: true,
+    resave: true,
     rolling: true,
     cookie: { maxAge: cookieMaxAgeMs, sameSite: cookieSameSite },
     secret: config.get('cookieSecret'),
@@ -147,7 +145,7 @@ async function makeApp(config, models) {
         table: 'Sessions',
       });
       // SequelizeStore supports the touch method so per the express-session docs this should be set to false
-      sessionOptions.updateSave = false;
+      sessionOptions.resave = false;
       // SequelizeStore docs mention setting this to true if SSL is done outside of Node
       // Not sure we have any way of knowing based on current config
       // sessionOptions.proxy = true;
@@ -159,11 +157,11 @@ async function makeApp(config, models) {
       });
       redisClient.connect().catch((error) => appLog.error(error));
       sessionOptions.store = new RedisStore({ client: redisClient });
-      sessionOptions.updateSave = false;
+      sessionOptions.resave = false;
       break;
     }
     default: {
-      customErrorMessage(`Invalid session store ${sessionStore}`)
+      throw new Error(`Invalid session store ${sessionStore}`);
     }
   }
 
@@ -234,15 +232,18 @@ async function makeApp(config, models) {
 
   // Add an error handler for /api
   app.use(baseUrl + '/api/', function (err, req, res, next) {
-    const responseInstance = new ResponseStatus(res);
     if (res.headersSent) {
       return next(err);
     }
     appLog.error(err);
     if (err && err.type === 'entity.too.large') {
-      return responseInstance.statusMessage(413,'Payload Too Large')
+      return res.status(413).json({
+        title: 'Payload Too Large',
+      });
     }
-    responseInstance.statusMessage(500,'Internal Server Error')
+    return res.status(500).json({
+      title: 'Internal Server Error',
+    });
   });
 
   // Anything else should render the client-side app

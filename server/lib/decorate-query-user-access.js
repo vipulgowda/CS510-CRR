@@ -1,4 +1,4 @@
-const consts = require('./connection-details');
+const consts = require('./consts');
 
 // Not sure where to put utilities like these
 

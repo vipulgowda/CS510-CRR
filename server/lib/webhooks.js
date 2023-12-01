@@ -19,9 +19,7 @@ function connectionSummary(connection) {
     driver: connection.driver,
   };
 }
-/**
- * Webhooks 
- */
+
 class Webhooks {
   /**
    *

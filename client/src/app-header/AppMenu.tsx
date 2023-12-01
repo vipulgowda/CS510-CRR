@@ -7,7 +7,7 @@ import { resetState } from '../stores/editor-actions';
 import UserProfileModal from '../users/UserProfileModal';
 import { api } from '../utilities/api';
 import useAppContext from '../utilities/use-app-context';
-import Modal from './Modal';
+import AboutModal from './AboutModal';
 
 function AppMenu() {
   const { currentUser } = useAppContext();
@@ -39,7 +39,7 @@ function AppMenu() {
         </MenuItem>
       </IconMenu>
 
-      <Modal visible={showAbout} onClose={() => setShowAbout(false)} />
+      <AboutModal visible={showAbout} onClose={() => setShowAbout(false)} />
       <UserProfileModal
         visible={showProfile}
         onClose={() => setShowProfile(false)}

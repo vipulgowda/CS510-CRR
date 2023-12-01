@@ -25,7 +25,7 @@ function ACLInput({ acl, onChange, disabled }: Props) {
   const { currentUser } = useAppContext();
 
   if (!users) {
-    return false;
+    return null;
   }
 
   // __EVERYONE__ is a groupId, otherwise everything else are user ids
