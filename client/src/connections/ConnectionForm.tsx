@@ -196,12 +196,12 @@ function ConnectionForm({ connectionId, onConnectionSaved }: any) {
       const connectionEditsData = connectionEdits.data || {};
       const driverInputs = fields.map((field: any) => {
         if (field.formType === TEXT) {
-          const value = connectionEditsData[field.key] || '';
+          const connectionText = connectionEditsData[field.key] || '';
           return (
             <HorizontalFormItem key={field.key} label={field.label}>
               <Input
                 name={field.key}
-                value={value as string}
+                value={connectionText as string}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setConnectionDataValue(e.target.name, e.target.value)
                 }
@@ -216,7 +216,7 @@ function ConnectionForm({ connectionId, onConnectionSaved }: any) {
             </HorizontalFormItem>
           );
         } else if (field.formType === PASSWORD) {
-          const value = connectionEditsData[field.key] || '';
+          const connectionPassword = connectionEditsData[field.key] || '';
           // autoComplete='new-password' used to prevent browsers from autofilling username and password
           // Because we dont return a password, Chrome goes ahead and autofills
           return (
@@ -225,7 +225,7 @@ function ConnectionForm({ connectionId, onConnectionSaved }: any) {
                 type="password"
                 autoComplete="new-password"
                 name={field.key}
-                value={value as string}
+                value={connectionPassword as string}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setConnectionDataValue(e.target.name, e.target.value)
                 }
@@ -240,12 +240,13 @@ function ConnectionForm({ connectionId, onConnectionSaved }: any) {
             </HorizontalFormItem>
           );
         } else if (field.formType === CHECKBOX) {
-          const checked = Boolean(connectionEditsData[field.key]) || false;
+          const connectionCheckbox =
+            Boolean(connectionEditsData[field.key]) || false;
           return (
             <HorizontalFormItem key={field.key}>
               <input
                 type="checkbox"
-                checked={checked}
+                checked={connectionCheckbox}
                 id={field.key}
                 name={field.key}
                 onChange={(e) =>
@@ -265,12 +266,12 @@ function ConnectionForm({ connectionId, onConnectionSaved }: any) {
             </HorizontalFormItem>
           );
         } else if (field.formType === TEXTAREA) {
-          const value = connectionEditsData[field.key] || '';
+          const connectionTextarea = connectionEditsData[field.key] || '';
           return (
             <HorizontalFormItem key={field.key} label={field.label}>
               <TextArea
                 name={field.key}
-                value={value as string}
+                value={connectionTextarea as string}
                 cols={45}
                 placeholder={field.placeholder}
                 onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
