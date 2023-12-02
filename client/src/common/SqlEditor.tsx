@@ -6,6 +6,7 @@ import Measure from 'react-measure';
 import useAppContext from '../utilities/use-app-context';
 import 'ace-builds/src-noconflict/mode-sql';
 import 'ace-builds/src-noconflict/theme-sqlserver';
+import AceEditorWrapper from './aceEditorWrapper';
 
 const noop = () => {};
 
@@ -72,7 +73,7 @@ function SqlEditor({
       >
         {({ measureRef }) => (
           <div ref={measureRef} className="h-100 w-100">
-            <AceEditor
+            <AceEditorWrapper
               editorProps={{ $blockScrolling: Infinity }}
               focus={!readOnly}
               height={height + 'px'}
@@ -98,7 +99,7 @@ function SqlEditor({
   }
 
   return (
-    <AceEditor
+    <AceEditorWrapper
       editorProps={{ $blockScrolling: Infinity }}
       focus={!readOnly}
       fontSize={14}

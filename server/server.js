@@ -9,7 +9,7 @@ const dotenv = require('dotenv');
 const makeApp = require('./app');
 const appLog = require('./lib/app-log');
 const Config = require('./lib/config');
-const { makeDb, getDb } = require('./lib/db');
+const DatabaseConnection = require('./lib/db');
 const makeMigrator = require('./lib/make-migrator');
 const loadSeedData = require('./lib/load-seed-data');
 const ensureAdmin = require('./lib/ensure-admin');
@@ -74,7 +74,9 @@ if (configValidations.errors.length > 0) {
   process.exit(1);
 }
 
-makeDb(config);
+const db = new DatabaseConnection({});
+
+db.makeDb(config);
 
 const baseUrl = config.get('baseUrl');
 const ip = config.get('ip');
@@ -127,7 +129,7 @@ function detectPortOrSystemd(port) {
 let server;
 
 async function startServer() {
-  const { models, sequelizeDb } = await getDb();
+  const { models, sequelizeDb } = await db.getDb();
 
   // Before application starts up apply any backend database migrations needed
   // If --migrate / migrate was specified, the process exits afterwards

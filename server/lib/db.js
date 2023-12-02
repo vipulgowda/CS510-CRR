@@ -10,9 +10,20 @@ const SequelizeDb = require('../sequelize-db');
  * Safety measures have been added to ensure only 1 instance of db can be initialized per alias
  */
 
+const initDb = (config) =>{
+  const dbPath = config.get('dbPath');
+  mkdirp.sync(path.join(dbPath, '/cache'));
+
+  const sequelizeDb = new SequelizeDb(config);
+  const models = new Models(sequelizeDb, config);
+
+  return { models, sequelizeDb };
+}
+
 class DatabaseConnection {
-  constructor() {
-    this.instances = {}
+  constructor(instances = {}) {
+    this.instances = instances
+    this.initDb = initDb.bind(this)
   }
 
   async getDb(instanceAlias = 'default') {
@@ -24,20 +35,10 @@ class DatabaseConnection {
     const { models, sequelizeDb } = await instancePromise;
     return { models, sequelizeDb };
   }
-  
-   static initDb(config){
-    const dbPath = config.get('dbPath');
-    mkdirp.sync(path.join(dbPath, '/cache'));
-
-    const sequelizeDb = new SequelizeDb(config);
-    const models = new Models(sequelizeDb, config);
-
-    return { models, sequelizeDb };
-  }
 
   makeDb(config, instanceAlias = 'default') {
     // makeDb should only be called once for a given alias
-    if (this.instances[instanceAlias]) {
+    if (this.instances && this.instances[instanceAlias]) {
       throw new Error(`db instance ${instanceAlias} already made`);
     }
     const dbPromise = this.initDb(config);
@@ -46,4 +47,4 @@ class DatabaseConnection {
   }
 }
 
-module.exports = new DatabaseConnection();
+module.exports = DatabaseConnection;
