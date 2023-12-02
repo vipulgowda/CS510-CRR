@@ -5,11 +5,15 @@ import styles from './Button.module.css';
 
 const ICON_SIZE = 18;
 
+type Variant = 'primary' | 'danger' | 'ghost' | 'primary-ghost' | undefined;
+
+let variant: Variant = 'primary';
+
 export interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: any;
-  variant?: string;
   htmlType?: 'button' | 'submit' | 'reset' | undefined;
   menuItems?: ReactNode[];
+  variant?: any;
 }
 
 export type Ref = HTMLButtonElement;
@@ -30,14 +34,15 @@ const Button = React.forwardRef<Ref, Props>(
   ) => {
     const classNames = [styles.btn];
 
-    if (variant === 'primary') {
-      classNames.push(styles.primary);
-    } else if (variant === 'danger') {
-      classNames.push(styles.danger);
-    } else if (variant === 'ghost') {
-      classNames.push(styles.ghost);
-    } else if (variant === 'primary-ghost') {
-      classNames.push(styles.primaryGhost);
+    const variantStyles: Record<typeof variant, string> = {
+      primary: styles.primary,
+      danger: styles.danger,
+      ghost: styles.ghost,
+      'primary-ghost': styles.primaryGhost,
+    };
+
+    if (variant in variantStyles) {
+      classNames.push(variantStyles[variant]);
     }
 
     if (className) {
