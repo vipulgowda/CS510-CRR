@@ -5,10 +5,6 @@ import 'ace-builds/src-min-noconflict/ext-searchbox';
 import 'ace-builds/src-noconflict/mode-sql';
 import 'ace-builds/src-noconflict/theme-sqlserver';
 
-interface customAceEditorProps {
-  IAceEditorProps : IAceEditorProps,
-}
-
 export default function AceEditorWrapper(props: IAceEditorProps){
   return (
   <AceEditor

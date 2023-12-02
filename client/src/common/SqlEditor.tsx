@@ -6,7 +6,7 @@ import Measure from 'react-measure';
 import useAppContext from '../utilities/use-app-context';
 import 'ace-builds/src-noconflict/mode-sql';
 import 'ace-builds/src-noconflict/theme-sqlserver';
-import AceEditorWrapper from './aceEditorWrapper';
+import AceEditorWrapper from './EditorWrapper';
 
 const noop = () => {};
 

@@ -32,8 +32,8 @@ function sleep(ms: number) {
 const { getState, setState } = useEditorStore;
 
 function setSession(sessionId: string, update: Partial<EditorSession>) {
-  const { editorSessions } = getState();
-  const session = getState().getSession(sessionId);
+  const { editorSessions, getSession } = getState();
+  const session = getSession(sessionId);
   if (!session) {
     return setState({
       editorSessions: {
@@ -53,8 +53,9 @@ function setSession(sessionId: string, update: Partial<EditorSession>) {
 // Schedule connectionClient Heartbeat
 // This only does work if data exists to do the work on
 // Assumption here is that the API call will finish in the 10 seconds this is scheduled for
+const INTERVAL_TIMEOUT = 10000
 setInterval(async () => {
-  const { editorSessions } = getState();
+  const { editorSessions, getSession } = getState();
   for (const sessionId of Object.keys(editorSessions)) {
     const { connectionClient } = getState().getSession(sessionId) || {};
 
@@ -65,7 +66,7 @@ setInterval(async () => {
       );
 
       const currentConnectionClient =
-        getState().getSession(sessionId)?.connectionClient;
+        getSession(sessionId)?.connectionClient;
 
       // If the connectionClient changed since hearbeat, do nothing
       if (
@@ -88,11 +89,11 @@ setInterval(async () => {
       }
     }
   }
-}, 10000);
+}, INTERVAL_TIMEOUT);
 
 function setBatch(sessionId: string, batchId: string, batch: Batch) {
-  const { batches, statements } = getState();
-  const { selectedStatementId } = getState().getSession(sessionId) || {};
+  const { batches, statements, getSession } = getState();
+  const { selectedStatementId } = getSession(sessionId) || {};
 
   const updatedStatements = {
     ...statements,
@@ -287,8 +288,8 @@ function cleanupConnectionClient(connectionClient?: ConnectionClient) {
  * @param connectionId
  */
 export function selectConnectionId(connectionId: string) {
-  const { focusedSessionId } = getState();
-  const { connectionClient } = getState().getFocusedSession();
+  const { focusedSessionId, getFocusedSession } = getState();
+  const { connectionClient } = getFocusedSession();
 
   localforage
     .setItem('selectedConnectionId', connectionId)
@@ -303,8 +304,8 @@ export function selectConnectionId(connectionId: string) {
 }
 
 export const formatQuery = async () => {
-  const { focusedSessionId } = getState();
-  const { queryText, queryId } = getState().getFocusedSession();
+  const { focusedSessionId, getFocusedSession } = getState();
+  const { queryText, queryId } = getFocusedSession();
 
   const json = await api.post('/api/format-sql', {
     query: queryText,
@@ -341,9 +342,9 @@ export const loadQuery = async (queryId: string) => {
     return response;
   }
 
-  const { focusedSessionId } = getState();
+  const { focusedSessionId, getFocusedSession } = getState();
   const { connectionClient, ...restOfCurrentSession } =
-    getState().getFocusedSession();
+    getFocusedSession();
 
   // Cleanup existing connection
   // Even if the connection isn't changing, the client should be refreshed
@@ -379,7 +380,8 @@ export const loadQuery = async (queryId: string) => {
 };
 
 export const runQuery = async () => {
-  const { focusedSessionId } = getState();
+  console.log("run")
+  const { focusedSessionId, getFocusedSession } = getState();
   const {
     queryId,
     queryName,
@@ -390,7 +392,7 @@ export const runQuery = async () => {
     connectionClient,
     selectedText,
     isDriverAsynchronous,
-  } = getState().getFocusedSession();
+  } = getFocusedSession();
 
   if (!connectionId) {
     return setSession(focusedSessionId, {
@@ -773,8 +775,8 @@ export function toggleSchema() {
 }
 
 export function toggleVisProperties() {
-  const { focusedSessionId } = getState();
-  const { showVisProperties } = getState().getFocusedSession();
+  const { focusedSessionId, getFocusedSession } = getState();
+  const { showVisProperties } = getFocusedSession();
   setSession(focusedSessionId, { showVisProperties: !showVisProperties });
 }
 
