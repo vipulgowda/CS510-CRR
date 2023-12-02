@@ -10,7 +10,7 @@ import {
 } from '../stores/editor-store';
 import chartDefinitions from '../utilities/chartDefinitions';
 
-function cleanBoolean(value: string | boolean) {
+function checkBooleanType(value: string | boolean) {
   if (typeof value === 'boolean') {
     return value;
   }
@@ -56,10 +56,10 @@ function ChartInputs() {
 
   const content = chartDefinition.fields.map((field) => {
     if (field.inputType === 'field-dropdown') {
-      const optionNodes = columnNames.map((qrfield) => {
+      const optionNodes = columnNames.map((columnQRField) => {
         return (
-          <option key={qrfield} value={qrfield}>
-            {qrfield}
+          <option key={columnQRField} value={columnQRField}>
+            {columnQRField}
           </option>
         );
       });
@@ -93,7 +93,7 @@ function ChartInputs() {
         </div>
       );
     } else if (field.inputType === 'checkbox') {
-      const checked = cleanBoolean(chartFields[field.fieldId]);
+      const checked = checkBooleanType(chartFields[field.fieldId]);
       return (
         <div style={inputStyle} key={field.fieldId}>
           <input

@@ -3,7 +3,6 @@ import Drawer from '../common/Drawer';
 import ConnectionAccessForm from './ConnectionAccessForm';
 
 function ConnectionAccessCreateDrawer({
-  connectionId,
   visible,
   onClose,
   onConnectionAccessSaved,

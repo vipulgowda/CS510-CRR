@@ -251,8 +251,8 @@ export async function connectConnectionClient() {
  * Disconnect the current connection client if one exists
  */
 export async function disconnectConnectionClient() {
-  const { focusedSessionId } = getState();
-  const { connectionClient } = getState().getFocusedSession();
+  const { focusedSessionId, getFocusedSession } = getState();
+  const { connectionClient } = getFocusedSession();
 
   if (connectionClient) {
     api

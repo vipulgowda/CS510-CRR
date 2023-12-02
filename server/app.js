@@ -92,9 +92,9 @@ async function makeApp(config, models) {
 
   // Use favicon middleware if favicon exists
   // Thist just loads it and serves from memory
-  const icoPath = path.join(__dirname, '/public/favicon.ico');
-  if (fs.existsSync(icoPath)) {
-    app.use(favicon(icoPath));
+  const iconPath = path.join(__dirname, '/public/favicon.ico');
+  if (fs.existsSync(iconPath)) {
+    app.use(favicon(iconPath));
   }
 
   app.use(

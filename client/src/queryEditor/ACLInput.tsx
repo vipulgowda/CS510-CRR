@@ -12,13 +12,13 @@ import useAppContext from '../utilities/use-app-context';
 
 interface Props {
   disabled?: boolean;
-  acl: Partial<ACLRecord>[];
+  accessControlList: Partial<ACLRecord>[];
   onChange: (value: Partial<ACLRecord>[]) => void;
 }
 
 const EVERYONE_GROUP_ID = '__EVERYONE__';
 
-function ACLInput({ acl, onChange, disabled }: Props) {
+function ACLInput({ accessControlList, onChange, disabled }: Props) {
   const { data: users } = api.useUsers();
   const queryId = useSessionQueryId();
   const { data: query } = api.useQuery(queryId);
@@ -44,7 +44,7 @@ function ACLInput({ acl, onChange, disabled }: Props) {
 
   // Index selected values for optimized selected checks
   const selectedByValue: Record<string, boolean> = {};
-  acl.forEach((item) => {
+  accessControlList.forEach((item) => {
     if (item.groupId) {
       selectedByValue[item.groupId] = true;
     } else if (item.userId) {
@@ -69,12 +69,12 @@ function ACLInput({ acl, onChange, disabled }: Props) {
   }
 
   // An empty row always added for adding additional groups/users
-  const aclPlusEmpty = acl.concat([{ groupId: '', userId: '', write: false }]);
+  const aclPlusEmpty = accessControlList.concat([{ groupId: '', userId: '', write: false }]);
 
   return (
     <div>
       <label>Access</label>
-      {acl.length === 0 ? (
+      {accessControlList.length === 0 ? (
         <div
           style={{
             padding: 16,
@@ -115,7 +115,7 @@ function ACLInput({ acl, onChange, disabled }: Props) {
               value={value}
               disabled={disabled}
               onChange={(event: ChangeEvent<HTMLSelectElement>) => {
-                const aclCopy = [...acl];
+                const aclCopy = [...accessControlList];
                 const { value } = event.target;
                 if (value === EVERYONE_GROUP_ID) {
                   aclCopy[index] = { groupId: value, write };
@@ -136,7 +136,7 @@ function ACLInput({ acl, onChange, disabled }: Props) {
               value={readWrite}
               onChange={(event: ChangeEvent<HTMLSelectElement>) => {
                 const { value } = event.target;
-                const aclCopy = [...acl];
+                const aclCopy = [...accessControlList];
                 const newWrite = value === 'write';
                 aclCopy[index] = { groupId, userId, write: newWrite };
                 onChange(aclCopy);
@@ -151,8 +151,8 @@ function ACLInput({ acl, onChange, disabled }: Props) {
             <IconButton
               disabled={isLastItem || disabled}
               onClick={() => {
-                const first = acl.slice(0, index);
-                const second = acl.slice(index + 1);
+                const first = accessControlList.slice(0, index);
+                const second = accessControlList.slice(index + 1);
                 onChange([...first, ...second]);
               }}
             >

@@ -21,7 +21,7 @@ export interface EditorSession {
   id: string;
   showSchema: boolean;
   showVisProperties: boolean;
-  schemaExpansions: { [conectionId: string]: ExpandedMap };
+  schemaExpansions: { [connectionId: string]: ExpandedMap };
   connectionId: string;
   connectionClient?: ConnectionClient;
   batchId?: string;

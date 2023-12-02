@@ -23,7 +23,7 @@ interface Params {
 }
 
 function QueryEditor() {
-  const [showNotFound, setShowNotFound] = useState(false);
+  const [visible, setIsVisible] = useState(false);
   const { queryId = '' } = useParams<Params>();
   useShortcuts();
 
@@ -35,13 +35,13 @@ function QueryEditor() {
   // Calling resetNewQuery here should not be necessary.
   // If query is not found, show the not found modal to inform user and prompt to start new query.
   useEffect(() => {
-    setShowNotFound(false);
+    setIsVisible(false);
     if (queryId === '') {
       connectConnectionClient();
     } else if (queryId) {
       loadQuery(queryId).then(({ error, data }) => {
         if (error || !data) {
-          return setShowNotFound(true);
+          return setIsVisible(true);
         }
         connectConnectionClient();
       });
@@ -82,7 +82,7 @@ function QueryEditor() {
       <DocumentTitle queryId={queryId} />
       <SchemaInfoLoader />
       <QuerySaveModal />
-      <NotFoundModal visible={showNotFound} queryId={queryId} />
+      <NotFoundModal visible={visible} queryId={queryId} />
       <EditorNavProtection />
     </div>
   );

@@ -216,7 +216,7 @@ function ConnectionForm({ connectionId, onConnectionSaved }: any) {
             </HorizontalFormItem>
           );
         } else if (field.formType === PASSWORD) {
-          const value = connectionEditsData[field.key] || '';
+          const passwordField = connectionEditsData[field.key] || '';
           // autoComplete='new-password' used to prevent browsers from autofilling username and password
           // Because we dont return a password, Chrome goes ahead and autofills
           return (
@@ -225,7 +225,7 @@ function ConnectionForm({ connectionId, onConnectionSaved }: any) {
                 type="password"
                 autoComplete="new-password"
                 name={field.key}
-                value={value as string}
+                value={passwordField as string}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setConnectionDataValue(e.target.name, e.target.value)
                 }

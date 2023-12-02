@@ -4,7 +4,7 @@ const mustBeAdmin = require('../middleware/must-be-admin');
 const mustBeAuthenticated = require('../middleware/must-be-authenticated');
 const wrap = require('../lib/wrap');
 
-function cleanUser(req, user) {
+function checkUser(req, user) {
   if (!user) {
     return user;
   }
@@ -27,8 +27,8 @@ function cleanUser(req, user) {
 async function listUsers(req, res) {
   const { models } = req;
   const users = await models.users.findAll();
-  const cleaned = users.map((u) => cleanUser(req, u));
-  return res.utils.data(cleaned);
+  const userArr = users.map((u) => checkUser(req, u));
+  return res.utils.data(userArr);
 }
 
 /**
@@ -55,7 +55,7 @@ async function createUser(req, res) {
 
   webhooks.userCreated(user);
 
-  return res.utils.data(cleanUser(req, user));
+  return res.utils.data(checkUser(req, user));
 }
 
 /**
@@ -65,7 +65,7 @@ async function createUser(req, res) {
 async function getUser(req, res) {
   const { params, models } = req;
   const foundUser = await models.users.findOneById(params.id);
-  return res.utils.data(cleanUser(req, foundUser));
+  return res.utils.data(checkUser(req, foundUser));
 }
 
 /**
@@ -90,7 +90,7 @@ async function updateUser(req, res) {
       email,
       password,
     });
-    return res.utils.data(cleanUser(req, updatedUser));
+    return res.utils.data(checkUser(req, updatedUser));
   }
 
   // If user is not updating self, the user doing the update must be an admin
@@ -128,7 +128,7 @@ async function updateUser(req, res) {
   };
 
   const updatedUser = await models.users.update(params.id, update);
-  return res.utils.data(cleanUser(req, updatedUser));
+  return res.utils.data(checkUser(req, updatedUser));
 }
 
 /**
