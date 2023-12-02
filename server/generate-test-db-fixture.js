@@ -221,11 +221,12 @@ async function main() {
         .add(rowId * 43, 'minute')
         .add(rowId * 37, 'seconds')
         .toISOString();
-
+      const DAYS_IN_MONTH = 31;
+      const WEEKS_IN_YEAR = 52;
       const dayOfMonthMultiplier =
-        (moment(orderTimestamp).date() / 31) * 0.45 + 1;
+        (moment(orderTimestamp).date() / DAYS_IN_MONTH) * 0.45 + 1;
       const weekOfYearMultiplier =
-        (moment(orderTimestamp).week() / 52) * 0.25 + 1;
+        (moment(orderTimestamp).week() / WEEKS_IN_YEAR) * 0.25 + 1;
       const minuteMultipler = (moment(orderTimestamp).minute() / 60) * 0.75 + 1;
       const secondMultipler = (moment(orderTimestamp).second() / 60) * 0.75 + 1;
 
