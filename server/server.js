@@ -33,20 +33,20 @@ const helpText = `
   node server.js --config path/to/file.format
 `;
 
-function cliHas(value) {
+function commandLineHas(value) {
   const lowered = argv._.map((v) => v.toLowerCase().trim());
   return lowered.includes(value);
 }
 
 // Check if version option is provided and print version
-if (argv.version || cliHas('version')) {
+if (argv.version || commandLineHas('version')) {
   // eslint-disable-next-line no-console
   console.log('SQLPad version %s', packageJson.version);
   process.exit(0);
 }
 
 // Check if help option is provided and print help text
-if (argv.help || cliHas('help')) {
+if (argv.help || commandLineHas('help')) {
   // eslint-disable-next-line no-console
   console.log(helpText);
   process.exit(0);
@@ -65,7 +65,7 @@ if (configFilePath && configFilePath.includes('.env')) {
 // Create a Config instance with command line arguments and environment variables
 const config = new Config(argv, process.env);
 
-const migrateOnly = config.get('migrate') || cliHas('migrate');
+const migrateOnly = config.get('migrate') || commandLineHas('migrate');
 
 // Check the log level and configurations
 appLog.setLevel(config.get('appLogLevel'));
@@ -134,7 +134,7 @@ function detectPortOrSystemd(port) {
 ============================================================================= */
 let server;
 
-async function startServer() {
+async function intializeServer() {
   const { models, sequelizeDb } = await getDb();
 
   // Before application starts up apply any backend database migrations needed
@@ -243,7 +243,7 @@ async function startServer() {
   server.setTimeout(timeoutSeconds * 1000);
 }
 
-startServer().catch((error) => {
+intializeServer().catch((error) => {
   appLog.error(error, 'Error starting SQLPad');
   process.exit(1);
 });
