@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+// Import required modules
 const fs = require('fs');
 const http = require('http');
 const https = require('https');
@@ -16,8 +16,10 @@ const ensureAdmin = require('./lib/ensure-admin');
 const ensureConnectionAccess = require('./lib/ensure-connection-access');
 const packageJson = require('./package.json');
 
+// Parse command line arguments using the 'minimist' library
 const argv = minimist(process.argv.slice(2));
 
+// Help text to display options
 const helpText = `
   SQLPad version ${packageJson.version}
 
@@ -36,12 +38,14 @@ function cliHas(value) {
   return lowered.includes(value);
 }
 
+// Check if version option is provided and print version
 if (argv.version || cliHas('version')) {
   // eslint-disable-next-line no-console
   console.log('SQLPad version %s', packageJson.version);
   process.exit(0);
 }
 
+// Check if help option is provided and print help text
 if (argv.help || cliHas('help')) {
   // eslint-disable-next-line no-console
   console.log(helpText);
@@ -58,10 +62,12 @@ if (configFilePath && configFilePath.includes('.env')) {
   }
 }
 
+// Create a Config instance with command line arguments and environment variables
 const config = new Config(argv, process.env);
 
 const migrateOnly = config.get('migrate') || cliHas('migrate');
 
+// Check the log level and configurations
 appLog.setLevel(config.get('appLogLevel'));
 appLog.debug(config.get(), 'Final config values');
 appLog.debug(config.getConnections(), 'Connections from config');
@@ -74,8 +80,10 @@ if (configValidations.errors.length > 0) {
   process.exit(1);
 }
 
+// Create the database and apply migrations
 makeDb(config);
 
+// Set up server variables
 const baseUrl = config.get('baseUrl');
 const ip = config.get('ip');
 const port = parseInt(config.get('port'), 10);
