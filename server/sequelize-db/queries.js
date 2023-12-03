@@ -29,7 +29,7 @@ module.exports = function (sequelize) {
       chart: {
         type: DataTypes.JSON,
         validate: {
-          matchesShape(value) {
+          matchesShape(chartData) {
             validateChartType(chartData);
           },
         },
