@@ -4,7 +4,7 @@ import '@reach/dialog/styles.css';
 import '@reach/menu-button/styles.css';
 import React from 'react';
 import { SWRConfig } from 'swr';
-import { MessageDisplayer } from './common/message';
+import { MessageDisplay } from './common/message';
 import './css/index.css';
 import './css/react-split-pane.css';
 import './css/vendorOverrides.css';
@@ -29,6 +29,6 @@ root.render(
     }}
   >
     <Routes />
-    <MessageDisplayer />
+    <MessageDisplay />
   </SWRConfig>
 );

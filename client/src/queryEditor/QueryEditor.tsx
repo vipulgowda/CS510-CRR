@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import SplitPane from 'react-split-pane';
 import AppHeader from '../app-header/AppHeader';
 import { debouncedResizeChart } from '../common/tauChartRef';
-import SchemaInfoLoader from '../schema/SchemaInfoLoader';
 import { connectConnectionClient, loadQuery } from '../stores/editor-actions';
 import useShortcuts from '../utilities/use-shortcuts';
 import DocumentTitle from './DocumentTitle';
@@ -17,6 +16,8 @@ import QueryEditorSqlEditor from './QueryEditorSqlEditor';
 import QuerySaveModal from './QuerySaveModal';
 import Toolbar from './Toolbar';
 import UnsavedQuerySelector from './UnsavedQuerySelector';
+import { loadSchema } from '../stores/editor-actions';
+import { useSessionConnectionId } from '../stores/editor-store';
 
 interface Params {
   queryId?: string;
@@ -25,6 +26,7 @@ interface Params {
 function QueryEditor() {
   const [visible, setIsVisible] = useState(false);
   const { queryId = '' } = useParams<Params>();
+  const selectedConnectionId = useSessionConnectionId();
   useShortcuts();
 
   // On queryId change from URL string, load query as needed.
@@ -47,6 +49,18 @@ function QueryEditor() {
       });
     }
   }, [queryId]);
+
+  /**
+ * Instead of loading schema on selection,
+ * this is acts as a listener-as-a-component for schema changes.
+ * This is not in the schema sidebar,
+ * because sidebar could be hidden and this is an application-level need
+ */
+  useEffect(() => {
+    if (selectedConnectionId) {
+      loadSchema(selectedConnectionId);
+    }
+  }, [selectedConnectionId]);
 
   return (
     <div
@@ -80,7 +94,6 @@ function QueryEditor() {
       </div>
       <UnsavedQuerySelector queryId={queryId} />
       <DocumentTitle queryId={queryId} />
-      <SchemaInfoLoader />
       <QuerySaveModal />
       <NotFoundModal visible={visible} queryId={queryId} />
       <EditorNavProtection />
