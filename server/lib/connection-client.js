@@ -1,5 +1,5 @@
 const { v4: uuidv4, v5: uuidv5 } = require('uuid');
-const consts = require('./consts');
+const connectionDetails = require('./connection-details');
 const drivers = require('../drivers');
 const renderConnection = require('./render-connection');
 const appLog = require('./app-log');
@@ -455,7 +455,8 @@ class ConnectionClient {
       .join('::');
 
     return (
-      identifier + uuidv5(keyValuesString, consts.CONNECTION_HASH_NAMESPACE)
+      identifier +
+      uuidv5(keyValuesString, connectionDetails.CONNECTION_HASH_NAMESPACE)
     );
   }
 }

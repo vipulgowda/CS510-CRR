@@ -51,11 +51,11 @@ function QueryEditor() {
   }, [queryId]);
 
   /**
- * Instead of loading schema on selection,
- * this is acts as a listener-as-a-component for schema changes.
- * This is not in the schema sidebar,
- * because sidebar could be hidden and this is an application-level need
- */
+   * Instead of loading schema on selection,
+   * this is acts as a listener-as-a-component for schema changes.
+   * This is not in the schema sidebar,
+   * because sidebar could be hidden and this is an application-level need
+   */
   useEffect(() => {
     if (selectedConnectionId) {
       loadSchema(selectedConnectionId);

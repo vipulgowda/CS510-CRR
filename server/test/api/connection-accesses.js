@@ -1,6 +1,6 @@
 const assert = require('assert');
 const TestUtils = require('../utils');
-const consts = require('../../lib/consts');
+const connectionDetails = require('../../lib/connection-details');
 
 describe('api/connection-accesses', function () {
   const utils = new TestUtils();
@@ -9,7 +9,7 @@ describe('api/connection-accesses', function () {
   let user2;
   let connection1;
   let connection2;
-  let defeaultConnectionAccess;
+  let defaultConnectionAccess;
   let connectionAccess1;
 
   before(async function () {
@@ -48,13 +48,16 @@ describe('api/connection-accesses', function () {
     TestUtils.validateListSuccessBody(body);
     assert.equal(body.length, 1, '1 length');
     assert(body[0].id, 'has id');
-    assert.equal(body[0].connectionId, consts.EVERY_CONNECTION_ID);
-    assert.equal(body[0].connectionName, consts.EVERY_CONNECTION_NAME);
-    assert.equal(body[0].userId, consts.EVERYONE_ID);
-    assert.equal(body[0].userName, consts.EVERYONE_NAME);
+    assert.equal(body[0].connectionId, connectionDetails.EVERY_CONNECTION_ID);
+    assert.equal(
+      body[0].connectionName,
+      connectionDetails.EVERY_CONNECTION_NAME
+    );
+    assert.equal(body[0].userId, connectionDetails.EVERYONE_ID);
+    assert.equal(body[0].userName, connectionDetails.EVERYONE_NAME);
     assert.equal(body[0].duration, 0);
     assert.equal(new Date(body[0].expiryDate).getFullYear(), 2099);
-    defeaultConnectionAccess = body[0];
+    defaultConnectionAccess = body[0];
   });
 
   it('Detect default active connection when creating new access', async function () {
@@ -75,7 +78,7 @@ describe('api/connection-accesses', function () {
   it('Expire default access on every connection to every user', function () {
     return utils.put(
       'admin',
-      `/api/connection-accesses/${defeaultConnectionAccess.id}/expire`
+      `/api/connection-accesses/${defaultConnectionAccess.id}/expire`
     );
   });
 

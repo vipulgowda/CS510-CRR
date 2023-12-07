@@ -1,6 +1,6 @@
 require('../typedefs');
 const router = require('express').Router();
-const consts = require('../lib/consts');
+const connectionDetails = require('../lib/connection-details');
 const mustBeAdmin = require('../middleware/must-be-admin');
 const mustBeAuthenticated = require('../middleware/must-be-authenticated');
 const wrap = require('../lib/wrap');
@@ -55,15 +55,15 @@ async function createConnectionAccess(req, res) {
   const { models } = req;
 
   let user = {
-    id: consts.EVERYONE_ID,
-    email: consts.EVERYONE_EMAIL,
+    id: connectionDetails.EVERYONE_ID,
+    email: connectionDetails.EVERYONE_EMAIL,
   };
   let connection = {
-    id: consts.EVERY_CONNECTION_ID,
-    name: consts.EVERY_CONNECTION_NAME,
+    id: connectionDetails.EVERY_CONNECTION_ID,
+    name: connectionDetails.EVERY_CONNECTION_NAME,
   };
 
-  if (req.body.userId !== consts.EVERYONE_ID) {
+  if (req.body.userId !== connectionDetails.EVERYONE_ID) {
     user = await models.users.findOneById(req.body.userId);
     if (!user) {
       return res.utils.error('User does not exist');
@@ -74,7 +74,7 @@ async function createConnectionAccess(req, res) {
       );
     }
   }
-  if (req.body.connectionId !== consts.EVERY_CONNECTION_ID) {
+  if (req.body.connectionId !== connectionDetails.EVERY_CONNECTION_ID) {
     connection = await models.connections.findOneById(req.body.connectionId);
     if (!connection) {
       return res.utils.error('Connection does not exist');

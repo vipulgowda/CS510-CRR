@@ -1,5 +1,5 @@
 const assert = require('assert');
-const consts = require('../../lib/consts');
+const connectionDetails = require('../../lib/connection-details');
 const TestUtils = require('../utils');
 const queryString = require('query-string');
 const parseLinkHeader = require('parse-link-header');
@@ -266,7 +266,7 @@ describe('api/queries', function () {
   it('ACL groupId __EVERYONE__ gives access like expected', async function () {
     await utils.put('editor', `/api/queries/${query.id}`, {
       ...createQueryBody,
-      acl: [{ groupId: consts.EVERYONE_ID, write: true }],
+      acl: [{ groupId: connectionDetails.EVERYONE_ID, write: true }],
     });
 
     const body2 = await utils.get('editor2', `/api/queries/${query.id}`);
@@ -277,7 +277,7 @@ describe('api/queries', function () {
 
     const body3 = await utils.put('editor2', `/api/queries/${query.id}`, {
       ...createQueryBody,
-      acl: [{ groupId: consts.EVERYONE_ID, write: false }],
+      acl: [{ groupId: connectionDetails.EVERYONE_ID, write: false }],
     });
     assert.strictEqual(body3.canRead, true);
     assert.strictEqual(body3.canWrite, false);
@@ -302,7 +302,7 @@ describe('api/queries', function () {
   it('ACL does not permit query deletion', async function () {
     const body = await utils.post('editor', '/api/queries', {
       ...createQueryBody,
-      acl: [{ userId: consts.EVERYONE_ID, write: true }],
+      acl: [{ userId: connectionDetails.EVERYONE_ID, write: true }],
     });
     await utils.del('editor2', `/api/queries/${body.id}`, 403);
   });

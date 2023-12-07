@@ -1,4 +1,4 @@
-const consts = require('../lib/consts');
+const connectionDetails = require('../lib/connection-details');
 const { Op } = require('sequelize');
 
 class ConnectionAccesses {
@@ -65,17 +65,17 @@ class ConnectionAccesses {
         [Op.or]: [
           {
             connectionId: {
-              [Op.in]: [connectionId, consts.EVERY_CONNECTION_ID],
+              [Op.in]: [connectionId, connectionDetails.EVERY_CONNECTION_ID],
             },
             userId,
           },
           {
             connectionId,
-            userId: { [Op.in]: [userId, consts.EVERYONE_ID] },
+            userId: { [Op.in]: [userId, connectionDetails.EVERYONE_ID] },
           },
           {
-            connectionId: consts.EVERY_CONNECTION_ID,
-            userId: consts.EVERYONE_ID,
+            connectionId: connectionDetails.EVERY_CONNECTION_ID,
+            userId: connectionDetails.EVERYONE_ID,
           },
         ],
       },
@@ -87,7 +87,7 @@ class ConnectionAccesses {
 
   findAllActiveByUserId(userId) {
     const where = {
-      userId: { [Op.in]: [userId, consts.EVERYONE_ID] },
+      userId: { [Op.in]: [userId, connectionDetails.EVERYONE_ID] },
       expiryDate: { [Op.gt]: new Date() },
     };
 
@@ -96,7 +96,9 @@ class ConnectionAccesses {
 
   findAllActiveByConnectionId(connectionId) {
     const where = {
-      connectionId: { [Op.in]: [connectionId, consts.EVERY_CONNECTION_ID] },
+      connectionId: {
+        [Op.in]: [connectionId, connectionDetails.EVERY_CONNECTION_ID],
+      },
       expiryDate: { [Op.gt]: new Date() },
     };
 
@@ -105,7 +107,9 @@ class ConnectionAccesses {
 
   findAllByConnectionId(connectionId) {
     const where = {
-      connectionId: { [Op.in]: [connectionId, consts.EVERY_CONNECTION_ID] },
+      connectionId: {
+        [Op.in]: [connectionId, connectionDetails.EVERY_CONNECTION_ID],
+      },
     };
     return this.sequelizeDb.ConnectionAccesses.findAll({ where });
   }
