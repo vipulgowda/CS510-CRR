@@ -10,7 +10,7 @@ const SequelizeDb = require('../sequelize-db');
  * Safety measures have been added to ensure only 1 instance of db can be initialized per alias
  */
 
-const initDb = (config) =>{
+const initDb = (config) => {
   const dbPath = config.get('dbPath');
   mkdirp.sync(path.join(dbPath, '/cache'));
 
@@ -18,12 +18,12 @@ const initDb = (config) =>{
   const models = new Models(sequelizeDb, config);
 
   return { models, sequelizeDb };
-}
+};
 
 class DatabaseConnection {
   constructor(instances = {}) {
-    this.instances = instances
-    this.initDb = initDb.bind(this)
+    this.instances = instances;
+    this.initDb = initDb.bind(this);
   }
 
   async getDb(instanceAlias = 'default') {
