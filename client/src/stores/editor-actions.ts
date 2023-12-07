@@ -53,7 +53,7 @@ function setSession(sessionId: string, update: Partial<EditorSession>) {
 // Schedule connectionClient Heartbeat
 // This only does work if data exists to do the work on
 // Assumption here is that the API call will finish in the 10 seconds this is scheduled for
-const INTERVAL_TIMEOUT = 10000
+const INTERVAL_TIMEOUT = 10000;
 setInterval(async () => {
   const { editorSessions, getSession } = getState();
   for (const sessionId of Object.keys(editorSessions)) {
@@ -65,8 +65,7 @@ setInterval(async () => {
         {}
       );
 
-      const currentConnectionClient =
-        getSession(sessionId)?.connectionClient;
+      const currentConnectionClient = getSession(sessionId)?.connectionClient;
 
       // If the connectionClient changed since hearbeat, do nothing
       if (
@@ -343,8 +342,7 @@ export const loadQuery = async (queryId: string) => {
   }
 
   const { focusedSessionId, getFocusedSession } = getState();
-  const { connectionClient, ...restOfCurrentSession } =
-    getFocusedSession();
+  const { connectionClient, ...restOfCurrentSession } = getFocusedSession();
 
   // Cleanup existing connection
   // Even if the connection isn't changing, the client should be refreshed
@@ -380,7 +378,7 @@ export const loadQuery = async (queryId: string) => {
 };
 
 export const runQuery = async () => {
-  console.log("run")
+  console.log('run');
   const { focusedSessionId, getFocusedSession } = getState();
   const {
     queryId,

@@ -69,7 +69,9 @@ function ACLInput({ accessControlList, onChange, disabled }: Props) {
   }
 
   // An empty row always added for adding additional groups/users
-  const aclPlusEmpty = accessControlList.concat([{ groupId: '', userId: '', write: false }]);
+  const aclPlusEmpty = accessControlList.concat([
+    { groupId: '', userId: '', write: false },
+  ]);
 
   return (
     <div>
