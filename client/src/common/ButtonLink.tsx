@@ -5,9 +5,11 @@ import Tooltip from './Tooltip';
 
 const ICON_SIZE = 20;
 
+type Variant = 'primary' | 'ghost';
+
 export interface Props extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   icon?: any;
-  variant?: string;
+  variant?: Variant;
   tooltip?: string;
   to?: string;
 }
@@ -24,10 +26,18 @@ const ButtonLink = ({
 }: Props) => {
   const classNames = [styles.btnLink];
 
-  if (variant === 'primary') {
+  /* if (variant === 'primary') {
     classNames.push(styles.primary);
   } else if (variant === 'ghost') {
     classNames.push(styles.ghost);
+  }*/
+  const variantstyle = {
+    primary: styles.primary || '',
+    ghost: styles.ghost || '',
+  };
+
+  if (variant && variant in variantstyle) {
+    classNames.push(variantstyle[variant]);
   }
 
   if (className) {
