@@ -44,40 +44,24 @@ function ExportButton({
     );
   }
 
+  function createMenuLink(type: string) {
+    return (
+      <MenuLink
+        key={type}
+        as={NavigationLink}
+        to={`/statement-results/${statementId}.${type}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {type}
+      </MenuLink>
+    );
+  }
+
   if (allowCsvDownload) {
-    items.push(
-      <MenuLink
-        key="csv"
-        as={NavigationLink}
-        to={`/statement-results/${statementId}.csv`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        csv
-      </MenuLink>
-    );
-    items.push(
-      <MenuLink
-        key="xlsx"
-        as={NavigationLink}
-        to={`/statement-results/${statementId}.xlsx`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        xlsx
-      </MenuLink>
-    );
-    items.push(
-      <MenuLink
-        key="json"
-        as={NavigationLink}
-        to={`/statement-results/${statementId}.json`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        json
-      </MenuLink>
-    );
+    items.push(createMenuLink('csv'));
+    items.push(createMenuLink('xlsx'));
+    items.push(createMenuLink('json'));
   }
 
   if (items.length === 0) {
