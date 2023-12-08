@@ -9,7 +9,7 @@ function getHeaderUser(req) {
   const { config } = req;
 
   if (!config.get('authProxyEnabled')) {
-    return null;
+    return false;
   }
 
   // Derive headerUser from headers
@@ -29,7 +29,7 @@ function getHeaderUser(req) {
     return headerUser;
   }
 
-  return null;
+  return false;
 }
 
 module.exports = getHeaderUser;
