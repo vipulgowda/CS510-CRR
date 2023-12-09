@@ -1,9 +1,10 @@
 import { api } from './api';
 
 export default async function swrFetcher(url: any) {
-  const { data, error } = await api.get(url);
-  if (error) {
-    throw error;
+  try {
+    const { data } = await api.get(url);
+    return data;
+  } catch (error: any) {
+    throw new Error(`Error fetching data from ${url}: ${error.message}`);
   }
-  return data;
 }
