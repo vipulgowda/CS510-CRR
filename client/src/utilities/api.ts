@@ -297,7 +297,7 @@ export const api = {
 
     return useSWR<AppInfo>('api/app', {
       dedupingInterval: 60000,
-      fetcher: async (url: any) => {
+      fetcher: async (url: string) => {
         const fetched = (await swrFetcher(url)) as AppInfo;
         return {
           ...fetched,
