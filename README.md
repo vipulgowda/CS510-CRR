@@ -20,15 +20,20 @@ This is the README for Graduate Project of CS510:TOP - Code Reading and Review. 
 
 ## Project Description
 
-<Project Descripton will be added shortly>
+The project structure comprises two main directories: 'client' and 'server.' The 'client' directory encapsulates all frontend components developed using TypeScript and React.js, while the 'server' directory has all the backend elements implemented with JavaScript and Node.js. The application is a web-based SQL editor, equipped with a plug-and-play mechanism for connecting to diverse databases, executing SQL queries, and seamlessly integrating data visualisation into the workflow.
+We actively engaged in addressing and resolving issues identified during the initial assessment phase. This encompassed debugging, refactoring, and optimising code segments to align with established principles of code quality and maintainability. The collaborative use of Git and GitHub facilitated streamlined version control, allowing for seamless integration of individual contributions into the project.
 
 ## Updates
 
-List the updates done to the project. You can use bullet points for this section.
+List the updates done to the project.
 
-- Feature 1 (coming soon)
-- Feature 2 (getting there)
-- Feature 3 (almost done (not really !!))
+- Code Maintainability
+- Encapsulation
+- Functional Abstraction
+- Naming Conventions
+- Comments
+- Unit Testing
+- Error Handling
 
 ## Getting Started
 
