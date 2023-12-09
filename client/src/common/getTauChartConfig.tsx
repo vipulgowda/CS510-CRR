@@ -226,28 +226,9 @@ export default function getTauChartConfig(
       break;
 
     case 'bar':
-      chartConfig.x = [barvalue];
-      if (valueFacet) {
-        chartConfig.x.unshift(valueFacet);
-      }
-      chartConfig.y = [barlabel];
-      if (labelFacet) {
-        chartConfig.y.unshift(labelFacet);
-      }
-      break;
-
     case 'verticalbar':
-      chartConfig.y = [barvalue];
-      if (valueFacet) {
-        chartConfig.y.unshift(valueFacet);
-      }
-      chartConfig.x = [barlabel];
-      if (labelFacet) {
-        chartConfig.x.unshift(labelFacet);
-      }
-      break;
-
     case 'stacked-bar-horizontal':
+    case 'stacked-bar-vertical':
       chartConfig.x = [barvalue];
       if (valueFacet) {
         chartConfig.x.unshift(valueFacet);
@@ -256,22 +237,13 @@ export default function getTauChartConfig(
       if (labelFacet) {
         chartConfig.y.unshift(labelFacet);
       }
-      if (color) {
-        chartConfig.color = color;
-      }
-      break;
-
-    case 'stacked-bar-vertical':
-      chartConfig.y = [barvalue];
-      if (valueFacet) {
-        chartConfig.y.unshift(valueFacet);
-      }
-      chartConfig.x = [barlabel];
-      if (labelFacet) {
-        chartConfig.x.unshift(labelFacet);
-      }
-      if (color) {
-        chartConfig.color = color;
+      if (
+        chartType === 'stacked-bar-horizontal' ||
+        chartType === 'stacked-bar-vertical'
+      ) {
+        if (color) {
+          chartConfig.color = color;
+        }
       }
       break;
 
