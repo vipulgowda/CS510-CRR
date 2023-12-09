@@ -45,6 +45,24 @@ describe('api/signin', function () {
         .expect(401);
     });
 
+    it('Non-exisiting user', async function () {
+      const utils = new TestUtil({
+        authProxyEnabled: false,
+        admin: 'testuser@test.com',
+        adminPassword: 'testuser',
+      });
+
+      await utils.init();
+
+      await request(utils.app)
+        .post('/api/signin')
+        .send({
+          email: 'testuser@test.com',
+          password: 'testuser',
+        })
+        .expect(401);
+    });
+
     it('supports case insensitive login', async function () {
       const utils = new TestUtil({
         authProxyEnabled: false,

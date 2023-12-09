@@ -7,18 +7,11 @@ import QueryListButton from './QueryListButton';
 import ToolbarNewQueryButton from './ToolbarNewQueryButton';
 import AppHeaderSpacer from './AppHeaderSpacer';
 import AppHeaderUser from './AppHeaderUser';
+import './AppHeader.css';
 
 function Appheader(): React.JSX.Element {
   return (
-    <div
-      style={{
-        width: '100%',
-        color: '#fff',
-        backgroundColor: 'rgba(0, 0, 0, 0.84)',
-        padding: 6,
-        borderBottom: '1px solid rgb(204, 204, 204)',
-      }}
-    >
+    <div className="container">
       <div style={{ display: 'flex' }}>
         <Logo />
         <QueryListButton />

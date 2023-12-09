@@ -1,0 +1,7 @@
+.container {
+  width: '100%';
+  color: '#fff';
+  background-color: 'rgba(0, 0, 0, 0.84)';
+  padding: 6;
+  border-bottom: '1px solid rgb(204, 204, 204)';
+}
