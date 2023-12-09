@@ -137,13 +137,6 @@ export function useMouseOverResultPane() {
   return useEditorStore((s) => s.mouseOverResultPane);
 }
 
-export function useSessionQueryShared() {
-  return useEditorStore((s) => {
-    const { acl } = s.getFocusedSession();
-    return (acl || []).length > 0;
-  });
-}
-
 export function useSessionSaveError() {
   return useEditorStore((s) => s.getFocusedSession().saveError);
 }
@@ -220,22 +213,6 @@ export function useSessionChartFields() {
   return useEditorStore((s) => s.getFocusedSession().chartFields);
 }
 
-export function useSessionQueryError() {
-  return useEditorStore((s) => {
-    const { queryError, selectedStatementId } = s.getFocusedSession();
-    if (queryError) {
-      return queryError;
-    }
-    if (selectedStatementId) {
-      const statementError = s.statements[selectedStatementId]?.error?.title;
-      if (statementError) {
-        return statementError;
-      }
-    }
-    return;
-  });
-}
-
 export function useBatchError() {
   return useEditorStore((s) => {
     const { queryError, batchId } = s.getFocusedSession();
@@ -285,21 +262,6 @@ export function useSchemaState(connectionId?: string) {
   });
 }
 
-/**
- * Get current batch for the session
- */
-export function useSessionBatch() {
-  return useEditorStore((s) => {
-    const { batchId } = s.getFocusedSession();
-    if (batchId) {
-      const batch = s.batches[batchId];
-      if (batch) {
-        return batch;
-      }
-    }
-  });
-}
-
 export function useLastStatementId() {
   return useEditorStore((s) => {
     const { batchId } = s.getFocusedSession();
@@ -313,32 +275,6 @@ export function useLastStatementId() {
       }
     }
     return '';
-  });
-}
-
-export function useSessionTableLink(sequence?: number) {
-  return useEditorStore((s) => {
-    const { queryId, connectionClient } = s.getFocusedSession();
-    const connectionClientId = connectionClient?.id;
-
-    let tableLink = '';
-
-    if (queryId && queryId !== 'new') {
-      tableLink = `/query-table/${queryId}`;
-
-      const searchParams = new URLSearchParams();
-
-      if (connectionClientId) {
-        searchParams.append('connectionClientId', connectionClientId);
-      }
-      if (sequence) {
-        searchParams.append('sequence', sequence.toString());
-      }
-
-      tableLink += `?${searchParams.toString()}`;
-    }
-
-    return tableLink;
   });
 }
 
