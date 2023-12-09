@@ -91,7 +91,7 @@ class Connections {
       .find((connection) => connection.id === id);
 
     if (!connectionFromEnv) {
-      return null;
+      return false;
     }
     return this.decorateConnection(connectionFromEnv);
   }

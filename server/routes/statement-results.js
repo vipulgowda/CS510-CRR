@@ -11,7 +11,7 @@ const FORMATS = ['csv', 'json', 'xlsx'];
 
 const renderValue = (input, column) => {
   if (input === null || input === undefined) {
-    return null;
+    return false;
   } else if (input === true || input === false) {
     return input;
   } else if (column.datatype === 'datetime' && typeof input === 'string') {

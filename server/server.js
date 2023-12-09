@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+// Import required modules
 const fs = require('fs');
 const http = require('http');
 const https = require('https');
@@ -16,8 +16,10 @@ const ensureAdmin = require('./lib/ensure-admin');
 const ensureConnectionAccess = require('./lib/ensure-connection-access');
 const packageJson = require('./package.json');
 
+// Parse command line arguments using the 'minimist' library
 const argv = minimist(process.argv.slice(2));
 
+// Help text to display options
 const helpText = `
   SQLPad version ${packageJson.version}
 
@@ -31,18 +33,20 @@ const helpText = `
   node server.js --config path/to/file.format
 `;
 
-function cliHas(value) {
+function commandLineHas(value) {
   const lowered = argv._.map((v) => v.toLowerCase().trim());
   return lowered.includes(value);
 }
 
-if (argv.version || cliHas('version')) {
+// Check if version option is provided and print version
+if (argv.version || commandLineHas('version')) {
   // eslint-disable-next-line no-console
   console.log('SQLPad version %s', packageJson.version);
   process.exit(0);
 }
 
-if (argv.help || cliHas('help')) {
+// Check if help option is provided and print help text
+if (argv.help || commandLineHas('help')) {
   // eslint-disable-next-line no-console
   console.log(helpText);
   process.exit(0);
@@ -58,10 +62,12 @@ if (configFilePath && configFilePath.includes('.env')) {
   }
 }
 
+// Create a Config instance with command line arguments and environment variables
 const config = new Config(argv, process.env);
 
-const migrateOnly = config.get('migrate') || cliHas('migrate');
+const migrateOnly = config.get('migrate') || commandLineHas('migrate');
 
+// Check the log level and configurations
 appLog.setLevel(config.get('appLogLevel'));
 appLog.debug(config.get(), 'Final config values');
 appLog.debug(config.getConnections(), 'Connections from config');
@@ -78,6 +84,7 @@ const db = new DatabaseConnection({});
 
 db.makeDb(config);
 
+// Set up server variables
 const baseUrl = config.get('baseUrl');
 const ip = config.get('ip');
 const port = parseInt(config.get('port'), 10);
@@ -128,7 +135,7 @@ function detectPortOrSystemd(port) {
 ============================================================================= */
 let server;
 
-async function startServer() {
+async function intializeServer() {
   const { models, sequelizeDb } = await db.getDb();
 
   // Before application starts up apply any backend database migrations needed
@@ -237,7 +244,7 @@ async function startServer() {
   server.setTimeout(timeoutSeconds * 1000);
 }
 
-startServer().catch((error) => {
+intializeServer().catch((error) => {
   appLog.error(error, 'Error starting SQLPad');
   process.exit(1);
 });
