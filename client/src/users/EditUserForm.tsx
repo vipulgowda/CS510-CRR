@@ -58,7 +58,7 @@ function EditUserForm({ userId }: any) {
       passwordResetId,
     });
     if (json.error) {
-      return message.error('Update failed: ' + json.error);
+      return message.error(`Update failed: ${json.error}`);
     }
     setPasswordResetId(passwordResetId);
     api.reloadUsers(user?.id);
@@ -69,7 +69,7 @@ function EditUserForm({ userId }: any) {
       passwordResetId: '',
     });
     if (json.error) {
-      return message.error('Remove reset failed: ' + json.error);
+      return message.error(`Remove reset failed: ${json.error}`);
     }
     setPasswordResetId(undefined);
   };
