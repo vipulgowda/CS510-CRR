@@ -392,9 +392,13 @@ export const runQuery = async () => {
     isDriverAsynchronous,
   } = getFocusedSession();
 
-  const sendStatusQueryError: string | null  = !connectionId ? 'Connection required' : !queryText ? 'SQL text required' : null
+  const sendStatusQueryError: string | null = !connectionId
+    ? 'Connection required'
+    : !queryText
+    ? 'SQL text required'
+    : null;
 
-  if(sendStatusQueryError){
+  if (sendStatusQueryError) {
     return setSession(focusedSessionId, {
       queryError: sendStatusQueryError,
       selectedStatementId: '',
